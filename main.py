@@ -22,7 +22,7 @@ priest_dmg = 0 #Setting floor for the priest dmg
 # ENEMIES #
 ###########
 #Vampire
-vampire = [10,1,2,2,1] #HP, MP , AP, WP, Init
+vampire = [15,0,2,2,2] #HP, MP, AP, WP, Init
 vampire_dmg = 0 #Setting floor for the vampire dmg
 
 
@@ -57,25 +57,29 @@ def initiative_phase(): #Function for setting the turn order
     
 #Attack from the warrior
 def warrior_attack(): #If the vampire got the armor up
-    if vampire [2] > 0: #If the vampire got the armor up
+    if vampire [2] > 0: #If the vampire got the armor up, then attack the armor
         vampire[2] = vampire[2] - random.randrange(warrior[3])
-        print("You damaged the enemy armor!")
-    elif vampire[2] <= 0: #If the vampire got no armor, attack life
+        if vampire[2] > 0:
+            print("You damaged the enemy armor! Enemy's current armor :" + str(vampire[2]))
+        elif vampire[2] <= 0:
+            print("You have destroyed the enemy armor!")
+    elif vampire[2] <= 0: #If the vampire got no armor, then attack life
         vampire[0] = vampire[0] - random.randrange(warrior[3])
         print("You hit the enemy, enemy current life: " + str(vampire[0]))
-    elif vampire[0] <= 0: #If the vampire is dead
-        print("You have killed the vampire! Continue your journey.")
+    
+    return vampire
 
 #Attack from the priest
 def priest_attack():
     if vampire [2] > 0: #If the vampire got the armor up
-        vampire[2] = vampire[2] - random.randrange(priest[3])
-        print("You damaged the enemy armor!")
+        vampire[2] = vampire[2] - random.randrange(warrior[3])
+        if vampire[2] > 0:
+            print("You damaged the enemy armor! Enemy's current armor :" + str(vampire[2]))
+        elif vampire[2] <= 0:
+            print("You have destroyed the enemy armor!")
     elif vampire[2] <= 0: #If the vampire got no armor, attack life
         vampire[0] = vampire[0] - random.randrange(priest[3])
         print("You hit the enemy, enemy current life: " + str(vampire[0]))
-    elif vampire[0] <= 0: #If the vampire is dead
-        print("You have killed the vampire! Continue your journey.")
 
 #Attack from the enemy
 def enemy_attack():
@@ -154,16 +158,22 @@ def action_phase():
         else: #Enemy third
             enemy_turn()
              
-    while warrior[0] > 0 and priest[0] > 0 or vampire[0] > 0: #Loop until all of the group die or the enemy dies
+    while (warrior[0] > 0 and priest[0] > 0) and vampire[0] > 0: #Loop until all of the group die or the enemy dies
         first_turn() #Execute the first turn
-        if warrior[0] > 0 and priest[0] > 0 or vampire[0] > 0:
+        if (warrior[0] > 0 and priest[0] > 0) and vampire[0] > 0:
             second_turn() #Execute the second turn
-        if warrior[0] > 0 and priest[0] > 0 or vampire[0] > 0:
+        if (warrior[0] > 0 and priest[0] > 0) and vampire[0] > 0:
             third_turn() #Execute the third turn
-        if warrior[0] > 0 and priest[0] > 0 or vampire[0] > 0:
+        if (warrior[0] > 0 and priest[0] > 0) and vampire[0] > 0:
             initiative_phase()
+        elif (warrior[0] <= 0 and priest[0] <= 0): #All the player's characters die
+            print("You have died! Better luck next time.")
+            break
+        elif vampire[0] <= 0: #The enemy die
+            print("You have killed the vampire! Continue your journey.")
+            break
         else:
             break
 
-if warrior[0] > 0 and priest[0] > 0 or vampire[0] > 0:
+if (warrior[0] > 0 and priest[0] > 0) and vampire[0] > 0: #Check all are alive to start the battle
     initiative_phase()
