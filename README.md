@@ -38,10 +38,13 @@ Adding color to the text for a better view of what is happening.
 Added more notes.
 Fix on the turn order, now all the characters play in the round they must play. - Rafael José - 22202078
 
-- 6st - Implementation of a short map. - Rafael José - 22202078
+- 6th - Implementation of a short map. - Rafael José - 22202078
 
-- 7st - README.md Implementation. - Rodrigo Gomes - 22201252
+- 7th - README.md Implementation. - Rodrigo Gomes - 22201252
 
+- 8th - Enemies only do actions if at least one of the player's characters is alive. Correction in some notes and elimination of dead code. - Rafael José - 22202078
+
+- 9th - Update on the README.md - Rodrigo Gomes - 22201252
 
 [Git Repository](https://github.com/Rafael-j-03/IC-Project)
 ## Development of our work
